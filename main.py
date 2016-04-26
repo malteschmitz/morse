@@ -120,9 +120,9 @@ class FullScreenApp(object):
         def f(line):
             self.canvas.move(line, -1, 0)
             coords = self.canvas.coords(line)
-            if (coords[3] < 0):
+            if (coords[2] < 0):
                 self.canvas.delete(line)
-            return coords[3] >= 0
+            return coords[2] >= 0
         self.lines = filter(f, self.lines)
         self.last_value = value
         self.root.after(10, self.update_canvas)
@@ -131,6 +131,5 @@ w = FullScreenApp(root)
 
 thread.start_new_thread(decoder_thread, ())
 thread.start_new_thread(read_thread, ())
-
     
 w.root.mainloop()
