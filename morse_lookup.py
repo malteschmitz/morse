@@ -42,5 +42,5 @@ morse_code_lookup = {
 
 def try_decode(bit_string):
     if bit_string in morse_code_lookup.keys():
-        sys.stdout.write(morse_code_lookup[bit_string])
-        sys.stdout.flush()
+        return morse_code_lookup[bit_string]
+    return "?"

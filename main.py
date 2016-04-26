@@ -6,6 +6,7 @@ import thread
 from array import array
 from pygame.locals import *
 from morse_lookup import *
+import Tkinter as tk
 
 pygame.mixer.pre_init(44100, -16, 1, 1024)
 pygame.init()
@@ -36,8 +37,6 @@ def wait_for_keyup(pin):
         time.sleep(0.01)
 
 def decoder_thread():
-    global key_up_time
-    global buffer
     new_word = False
     while True:
         time.sleep(.01)
@@ -45,37 +44,48 @@ def decoder_thread():
         if len(buffer) > 0 and key_up_length >= 1.5:
             new_word = True
             bit_string = "".join(buffer)
-            try_decode(bit_string)
+            w.text.insert(tk.INSERT, try_decode(bit_string))
             del buffer[:]
         elif new_word and key_up_length >= 4.5:
             new_word = False
-            sys.stdout.write(" ")
-            sys.stdout.flush()
-
-tone_obj = ToneSound(frequency = 800, volume = .5)
+            w.text.insert(tk.INSERT, " ")
 
 pin = 21
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-DOT = "."
-DASH = "-"
-
-key_down_time = 0
-key_down_length = 0
+tone_obj = ToneSound(frequency = 800, volume = .5)
 key_up_time = 0
 buffer = []
 
+DASH = "-"
+DOT = "."
+
+def read_thread():
+	key_down_time = 0
+	key_down_length = 0
+	while True:
+		wait_for_keydown(pin)
+		global key_up_time
+		key_down_time = time.time() #record the time when the key went down
+		tone_obj.play(-1) #the -1 means to loop the sound
+		wait_for_keyup(pin)
+		key_up_time = time.time() #record the time when the key was released
+		key_down_length = key_up_time - key_down_time #get the length of time it was held down for
+		tone_obj.stop()
+		buffer.append(DASH if key_down_length > 0.15 else DOT)
+
+class FullScreenApp(object):
+	def __init__(self, master):
+		self.master = master
+		self.text = tk.Text(master, relief="flat", font=("DejaVu Sans Mono",50))
+		self.text.pack(fill=tk.BOTH, expand=1)
+		self.text.focus_set()
+		self.master.attributes("-fullscreen", True)
+
+w = FullScreenApp(tk.Tk())
+
 thread.start_new_thread(decoder_thread, ())
-
-print("Ready")
-
-while True:
-    wait_for_keydown(pin)
-    key_down_time = time.time() #record the time when the key went down
-    tone_obj.play(-1) #the -1 means to loop the sound
-    wait_for_keyup(pin)
-    key_up_time = time.time() #record the time when the key was released
-    key_down_length = key_up_time - key_down_time #get the length of time it was held down for
-    tone_obj.stop()
-    buffer.append(DASH if key_down_length > 0.15 else DOT)
+thread.start_new_thread(read_thread, ())
+		
+w.master.mainloop()
