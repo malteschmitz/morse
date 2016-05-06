@@ -170,8 +170,9 @@ class FullScreenApp(object):
         
         self.cpm = tk.StringVar()
         self.cpm.trace("w", self.cpm_changed)
-        
         self.cpm.set(30)
+        self.auto_speed = tk.IntVar()
+        self.auto_speed.set(0)
 
         self.canvas = tk.Canvas(height=100, relief=tk.FLAT, highlightthickness=0, background="black")
         self.canvas.grid(sticky=tk.W+tk.E, row=0, columnspan=2)
@@ -189,10 +190,11 @@ class FullScreenApp(object):
         self.cpmEdit = tk.Entry(self.foot, font=("DejaVu Sans Mono",24), width=4, justify=tk.RIGHT, textvar=self.cpm, highlightthickness=0, relief=tk.FLAT)
         self.cpmEdit.pack(side=tk.LEFT)
         tk.Label(self.foot, text=" CpM ", font=("DejaVu Sans Mono",24), background="white").pack(side=tk.LEFT)
-        tk.Button(self.foot, text="+", command=self.cpm_plus, font=("DejaVu Sans Mono",24)).pack(side=tk.LEFT)
+        tk.Button(self.foot, text="+", command=self.cpm_plus, font=("DejaVu Sans Mono",24), padx=12, pady=2).pack(side=tk.LEFT)
         tk.Label(self.foot, text=" ", font=("DejaVu Sans Mono",24), background="white").pack(side=tk.LEFT)
-        tk.Button(self.foot, text="−", command=self.cpm_minus, font=("DejaVu Sans Mono",24)).pack(side=tk.LEFT)
-        
+        tk.Button(self.foot, text="−", command=self.cpm_minus, font=("DejaVu Sans Mono",24), padx=12, pady=2).pack(side=tk.LEFT)
+        tk.Label(self.foot, text="  ", font=("DejaVu Sans Mono",24), background="white").pack(side=tk.LEFT)
+        tk.Checkbutton(self.foot, text="Auto", font=("DejaVu Sans Mono",24), indicatoron=False, padx=12, pady=2, variable=self.auto_speed).pack(side=tk.LEFT)
         
         self.root.grid_columnconfigure(0, weight=1)
         self.root.grid_rowconfigure(1, weight=1)
@@ -276,8 +278,12 @@ class FullScreenApp(object):
     def decode_was_down(self, key_down_length):
         if key_down_length > self.dit_dash:
             self.tree.dash()
+            if self.auto_speed.get():
+                self.cpm.set(int(round(6.0 / (key_down_length / 3.0))))
         else:
             self.tree.dot()
+            if self.auto_speed.get():
+                self.cpm.set(int(round(6.0 / key_down_length)))
 
     def read_input(self):
         value = not GPIO.input(PIN)
