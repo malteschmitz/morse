@@ -2,16 +2,17 @@ import Tkinter as tk
 
 TREE_LEFT_OFFSET = 10
 TREE_LEVEL_DEPTH = 60
-TREE_DIAMETER = 22
+TREE_DIAMETER = 25
 TREE_LINE_WIDTH = 1.5
 TREE_SELECTED_LINE_WITH = 2.5
-TREE_SIBLING_DISTANCE = lambda level: 2**max(5-level, 0)*25
-TREE_INIT_Y = 450
+TREE_SIBLING_DISTANCE = lambda level: 2**max(5-level, 0)*29
+TREE_INIT_Y = 480
 TREE_DRAW = "black"
 TREE_SELECTED_DRAW = "red"
 TREE_FILL = "light blue"
 TREE_EMPTY_FILL = "light gray"
 TREE_SELECTED_FILL = "light pink"
+TREE_FONT = ("DejaVu Sans Mono",18)
 
 class Node:
     def __init__(self, value, dot = None, dash = None):
@@ -163,4 +164,4 @@ class DecodeTree:
             self.plot_tree(node.dash, level + 1, y - TREE_SIBLING_DISTANCE(level)/2)
         node.oval = self.canvas.create_oval(TREE_LEFT_OFFSET + level * TREE_LEVEL_DEPTH, y, TREE_LEFT_OFFSET + level * TREE_LEVEL_DEPTH + TREE_DIAMETER, y + TREE_DIAMETER)
         if node.value:
-            self.canvas.create_text(TREE_LEFT_OFFSET + level * TREE_LEVEL_DEPTH + TREE_DIAMETER / 2, y + TREE_DIAMETER / 2, text=node.value, font=("DejaVu Sans Mono",16))
+            self.canvas.create_text(TREE_LEFT_OFFSET + level * TREE_LEVEL_DEPTH + TREE_DIAMETER / 2 + 1, y + TREE_DIAMETER / 2 + 1, text=node.value, font=TREE_FONT)
