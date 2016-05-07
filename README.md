@@ -13,7 +13,7 @@ Connect a regular straight keyer such that it closes the connection from a GPIO 
 
 The GUI is written in [Tkinter](https://docs.python.org/2/library/tkinter.html), Pythons interface to [Tcl/Tk](http://www.tcl.tk). The moving bars on the top and the visual decoding tree are painted using the [Tkinter Canvas Widget](http://effbot.org/tkinterbook/canvas.htm).
 
-We also created a German [flyer explaining morse](https://github.com/malteschmitz/morsecode code) and how to decode morse code using the binary search tree, which is used in the visualization of this application as well.
+We also created a German [flyer explaining morse code](https://github.com/malteschmitz/morsecode) and how to decode morse code using the binary search tree, which is used in the visualization of this application as well.
 
 # further ideas
 - Add support for iambic paddles
