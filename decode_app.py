@@ -52,6 +52,8 @@ class DecodeApp(object):
         
         self.text.focus_set()
         self.root.attributes("-fullscreen", True)
+
+        self.root.bind("<Escape>", self.clear_all)
         
         self.last_value = False
         self.lines = []
@@ -59,6 +61,9 @@ class DecodeApp(object):
         self.key_up_time = 0
         self.new_word = False
         self.read_input()
+        
+    def clear_all(self, *args):
+        self.text.delete(1.0, tk.END)
         
     def run(self):
         self.root.mainloop()
