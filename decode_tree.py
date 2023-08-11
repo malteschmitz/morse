@@ -1,4 +1,4 @@
-import Tkinter as tk
+import tkinter as tk
 
 TREE_LEFT_OFFSET = 10
 TREE_LEVEL_DEPTH = 60

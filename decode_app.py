@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from tone_sound import ToneSound
-import Tkinter as tk
+import tkinter as tk
 from decode_tree import DecodeTree
 from RPi import GPIO
 import time
@@ -119,7 +119,7 @@ class DecodeApp(object):
             if (coords[2] < 0):
                 self.canvas.delete(line)
             return coords[2] >= 0
-        self.lines = filter(f, self.lines)
+        self.lines = [line for line in self.lines if f(line)]
 
     # Call this method as long as the key is up
     def decode_is_up(self, key_up_length):

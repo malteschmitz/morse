@@ -17,7 +17,7 @@ class ToneSound(pygame.mixer.Sound):
         period = int(round(mixer_init[0] / self.frequency))
         samples = array("h", [0] * period)
         amplitude = 2 ** (abs(pygame.mixer.get_init()[1]) - 1) - 1
-        for time in xrange(period):
+        for time in range(period):
             if time < period / 2:
                 samples[time] = amplitude
             else:
