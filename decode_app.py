@@ -21,7 +21,7 @@ class DecodeApp(object):
         
         self.cpm = tk.StringVar()
         self.cpm.trace("w", self.cpm_changed)
-        self.cpm.set(30)
+        self.cpm.set(50)
         self.auto_speed = tk.IntVar()
         self.auto_speed.set(0)
 

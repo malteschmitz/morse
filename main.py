@@ -1,5 +1,5 @@
 #!/usr/bin/python
 
 from decode_app import DecodeApp
-PIN = 21
+PIN = 23
 DecodeApp(PIN).run()
