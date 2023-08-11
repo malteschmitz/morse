@@ -5,13 +5,13 @@ The code in this repository was inspired by and is partly based on the [Raspberr
 
 ![Screenshot](/screenshot.png?raw=true "Screenshot")
 
-The decoder is written in Python2 and uses
+The decoder is written in Python3 and uses
  - [RPi.GPIO](https://pypi.python.org/pypi/RPi.GPIO) to read the GPIO port and
  - [PyGame](http://www.pygame.org) to generate the sidetone.
 
 Connect a regular straight keyer such that it closes the connection from a GPIO input pin and ground. E.g. use pin number 39 (ground) and pin number 40 (BCM 21). See [Raspberry Pinout](https://pinout.xyz). The input pin can easily be set in the `main.py`. The state of this input pin is read every 10 ms which creates a sample rate of 100 Hz.
 
-The GUI is written in [Tkinter](https://docs.python.org/2/library/tkinter.html), Pythons interface to [Tcl/Tk](http://www.tcl.tk). The moving bars on the top and the visual decoding tree are painted using the [Tkinter Canvas Widget](http://effbot.org/tkinterbook/canvas.htm).
+The GUI is written in [tkinter](https://docs.python.org/3/library/tkinter.html), Pythons interface to [Tcl/Tk](http://www.tcl.tk). The moving bars on the top and the visual decoding tree are painted using the [Tkinter Canvas Widget](http://effbot.org/tkinterbook/canvas.htm).
 
 We also created a German [flyer explaining morse code](https://github.com/malteschmitz/morsecode) and how to decode morse code using the binary search tree, which is used in the visualization of this application as well.
 
